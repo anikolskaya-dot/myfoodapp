@@ -1,0 +1,5 @@
+{
+  "name": "NutriTrack - Твой умный дневник питания",
+  "description": "Персонализированный расчет калорий, поиск продуктов по базе Open Food Facts и удобный трекинг БЖУ.",
+  "requestFramePermissions": []
+}
