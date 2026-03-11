@@ -23,64 +23,64 @@ export default function FoodCalculator({ food, onClose, onAdd, mealName }: FoodC
   const currentCarbs = calculate(amount, food.carbsPer100g);
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-[60] flex items-end justify-center p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 bg-black/80 z-[60] flex items-end justify-center p-4 backdrop-blur-sm">
       <motion.div
         initial={{ y: '100%' }}
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
-        className="bg-zinc-900 w-full max-w-md rounded-t-[32px] p-8 pb-10 border-t border-zinc-800 shadow-2xl"
+        className="bg-zinc-950 w-full max-w-md rounded-t-3xl p-8 pb-12 border-t border-zinc-800 shadow-2xl"
       >
-        <div className="flex justify-between items-start mb-6">
+        <div className="flex justify-between items-start mb-8">
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-white font-display mb-1">{food.name}</h2>
-            <p className="text-zinc-500">{food.brand || 'Общий продукт'}</p>
+            <h2 className="text-xl font-bold text-white tracking-tight mb-1">{food.name}</h2>
+            <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">{food.brand || 'Общий продукт'}</p>
           </div>
-          <button onClick={onClose} className="p-2 bg-zinc-800 rounded-full text-zinc-400 hover:text-zinc-200">
-            <X size={20} />
+          <button onClick={onClose} className="p-2 bg-zinc-900 rounded-full text-zinc-600 hover:text-zinc-300 transition-colors">
+            <X size={18} />
           </button>
         </div>
 
-        <div className="flex items-center justify-center gap-8 mb-8">
+        <div className="flex items-center justify-center gap-10 mb-10">
           <button 
             onClick={() => setAmount(Math.max(0, amount - 10))}
-            className="w-12 h-12 rounded-full border-2 border-zinc-800 flex items-center justify-center text-zinc-500 hover:bg-zinc-800 transition-colors"
+            className="w-10 h-10 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-600 hover:bg-zinc-900 hover:text-zinc-300 transition-colors"
           >
-            <Minus size={24} />
+            <Minus size={20} />
           </button>
           <div className="text-center">
             <input
               type="number"
               value={amount}
               onChange={(e) => setAmount(Math.max(0, parseInt(e.target.value) || 0))}
-              className="text-5xl font-bold text-blue-500 w-32 text-center focus:outline-none font-display bg-transparent"
+              className="text-6xl font-bold text-white w-32 text-center focus:outline-none tracking-tighter bg-transparent"
             />
-            <div className="text-zinc-500 font-bold uppercase text-xs tracking-widest">Граммов</div>
+            <div className="text-[10px] text-zinc-600 font-bold uppercase tracking-[0.2em] mt-2">Граммов</div>
           </div>
           <button 
             onClick={() => setAmount(amount + 10)}
-            className="w-12 h-12 rounded-full border-2 border-zinc-800 flex items-center justify-center text-zinc-500 hover:bg-zinc-800 transition-colors"
+            className="w-10 h-10 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-600 hover:bg-zinc-900 hover:text-zinc-300 transition-colors"
           >
-            <Plus size={24} />
+            <Plus size={20} />
           </button>
         </div>
 
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-4 gap-2 mb-10">
           {[
             { label: 'Ккал', value: currentCalories, color: 'text-white' },
             { label: 'Белки', value: currentProtein, color: 'text-blue-500' },
-            { label: 'Жиры', value: currentFat, color: 'text-amber-500' },
+            { label: 'Жиры', value: currentFat, color: 'text-amber-600' },
             { label: 'Углеводы', value: currentCarbs, color: 'text-emerald-500' },
           ].map((item) => (
-            <div key={item.label} className="text-center">
-              <div className={`text-lg font-bold ${item.color}`}>{item.value}</div>
-              <div className="text-[10px] text-zinc-500 uppercase font-bold">{item.label}</div>
+            <div key={item.label} className="text-center p-3 bg-zinc-900/30 rounded-xl border border-zinc-900">
+              <div className={`text-sm font-bold ${item.color}`}>{item.value}</div>
+              <div className="text-[8px] text-zinc-600 uppercase font-black tracking-widest mt-1">{item.label}</div>
             </div>
           ))}
         </div>
 
         <button
           onClick={() => onAdd(amount)}
-          className="w-full py-5 bg-emerald-600 text-white rounded-2xl font-bold text-xl shadow-lg shadow-emerald-900/50 hover:bg-emerald-700 transition-colors"
+          className="w-full py-4 bg-blue-600 text-white rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-blue-700 transition-colors shadow-lg shadow-blue-900/20"
         >
           Добавить в {mealName}
         </button>

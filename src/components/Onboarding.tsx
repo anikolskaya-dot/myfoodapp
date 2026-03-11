@@ -24,21 +24,22 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   });
 
   const steps = [
-    { title: 'Как тебя зовут?', field: 'name' },
-    { title: 'Твой пол', field: 'gender' },
-    { title: 'Твой возраст', field: 'age' },
-    { title: 'Твой рост', field: 'height' },
-    { title: 'Твой вес', field: 'weight' },
-    { title: 'Здоровье', field: 'healthIssues' },
-    { title: 'Твоя цель', field: 'goal' },
-    { title: 'Результат', field: 'result' },
+    { title: 'Ваше имя', field: 'name' },
+    { title: 'Ваш аватар', field: 'emoji' },
+    { title: 'Ваш пол', field: 'gender' },
+    { title: 'Ваш возраст', field: 'age' },
+    { title: 'Ваш рост', field: 'height' },
+    { title: 'Ваш вес', field: 'weight' },
+    { title: 'Состояние здоровья', field: 'healthIssues' },
+    { title: 'Ваша цель', field: 'goal' },
+    { title: 'Ваш план', field: 'result' },
   ];
 
   const healthOptions = [
-    { id: 'none', label: 'Нет проблем', icon: '✅' },
-    { id: 'heart', label: 'Проблемы с сердцем', icon: '❤️' },
-    { id: 'diabetes', label: 'Диабет', icon: '🩸' },
-    { id: 'thyroid', label: 'Щитовидная железа', icon: '🦋' },
+    { id: 'none', label: 'Нет ограничений', icon: '✅' },
+    { id: 'heart', label: 'Сердечно-сосудистые заболевания', icon: '❤️' },
+    { id: 'diabetes', label: 'Сахарный диабет', icon: '🩸' },
+    { id: 'thyroid', label: 'Заболевания щитовидной железы', icon: '🦋' },
     { id: 'hypertension', label: 'Гипертония', icon: '🩺' },
   ];
 
@@ -58,12 +59,12 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   };
 
   useEffect(() => {
-    if (step === 7) {
+    if (step === 8) {
       confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ['#10b981', '#3b82f6', '#f59e0b']
+        particleCount: 100,
+        spread: 60,
+        origin: { y: 0.7 },
+        colors: ['#3b82f6', '#10b981']
       });
     }
   }, [step]);
@@ -85,89 +86,96 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
     switch (step) {
       case 0:
         return (
-          <div className="mt-8 space-y-8">
-            <div className="flex flex-wrap gap-3 justify-center">
+          <div className="mt-12">
+            <label className="block text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4">Введите имя</label>
+            <input
+              autoFocus
+              type="text"
+              placeholder="Александр"
+              value={profile.name}
+              onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+              className="w-full bg-transparent border-b-2 border-zinc-800 py-4 text-3xl font-semibold text-white focus:outline-none focus:border-blue-500 transition-colors"
+              onKeyDown={(e) => e.key === 'Enter' && nextStep()}
+            />
+            <p className="mt-4 text-zinc-500 text-sm">Это имя будет использоваться в вашем личном кабинете.</p>
+          </div>
+        );
+      case 1:
+        return (
+          <div className="mt-8">
+            <label className="block text-xs font-bold text-zinc-500 uppercase tracking-widest mb-6">Выберите иконку профиля</label>
+            <div className="grid grid-cols-4 gap-4">
               {emojis.map((e) => (
                 <button
                   key={e}
-                  onClick={() => setProfile({ ...profile, emoji: e })}
-                  className={`text-3xl p-3 rounded-2xl border-2 transition-all ${profile.emoji === e ? 'border-blue-500 bg-blue-900/30' : 'border-zinc-800 bg-zinc-900'}`}
+                  onClick={() => { setProfile({ ...profile, emoji: e }); setTimeout(nextStep, 200); }}
+                  className={`text-3xl aspect-square flex items-center justify-center rounded-xl border transition-all ${profile.emoji === e ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-800 bg-zinc-900/50 hover:border-zinc-700'}`}
                 >
                   {e}
                 </button>
               ))}
             </div>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Твое имя"
-                value={profile.name}
-                onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                className="w-full bg-zinc-900 border-2 border-zinc-800 rounded-2xl p-5 text-xl font-semibold text-white focus:outline-none focus:border-blue-500 transition-colors"
-                onKeyDown={(e) => e.key === 'Enter' && nextStep()}
-              />
-            </div>
-          </div>
-        );
-      case 1:
-        return (
-          <div className="flex gap-4 justify-center mt-8">
-            <button
-              onClick={() => { setProfile({ ...profile, gender: 'male' }); nextStep(); }}
-              className={`flex flex-col items-center p-8 rounded-3xl border-2 transition-all ${profile.gender === 'male' ? 'border-blue-500 bg-blue-900/30' : 'border-zinc-800 bg-zinc-900'}`}
-            >
-              <span className="text-6xl mb-4">👨</span>
-              <span className="font-semibold">Мужчина</span>
-            </button>
-            <button
-              onClick={() => { setProfile({ ...profile, gender: 'female' }); nextStep(); }}
-              className={`flex flex-col items-center p-8 rounded-3xl border-2 transition-all ${profile.gender === 'female' ? 'border-pink-500 bg-pink-900/30' : 'border-zinc-800 bg-zinc-900'}`}
-            >
-              <span className="text-6xl mb-4">👩</span>
-              <span className="font-semibold">Женщина</span>
-            </button>
           </div>
         );
       case 2:
         return (
-          <div className="mt-8 text-center">
-            <div className="text-7xl font-bold text-blue-500 mb-8 font-display">{profile.age}</div>
+          <div className="grid grid-cols-2 gap-4 mt-12">
+            <button
+              onClick={() => { setProfile({ ...profile, gender: 'male' }); nextStep(); }}
+              className={`flex flex-col items-center p-10 rounded-2xl border transition-all ${profile.gender === 'male' ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-800 bg-zinc-900/50 hover:border-zinc-700'}`}
+            >
+              <span className="text-4xl mb-4 opacity-80">👨</span>
+              <span className="font-medium text-zinc-300">Мужчина</span>
+            </button>
+            <button
+              onClick={() => { setProfile({ ...profile, gender: 'female' }); nextStep(); }}
+              className={`flex flex-col items-center p-10 rounded-2xl border transition-all ${profile.gender === 'female' ? 'border-pink-500 bg-pink-500/10' : 'border-zinc-800 bg-zinc-900/50 hover:border-zinc-700'}`}
+            >
+              <span className="text-4xl mb-4 opacity-80">👩</span>
+              <span className="font-medium text-zinc-300">Женщина</span>
+            </button>
+          </div>
+        );
+      case 3:
+        return (
+          <div className="mt-12 text-center">
+            <div className="text-8xl font-bold text-white mb-12 tracking-tighter">{profile.age}</div>
             <input
               type="range"
               min="13"
               max="100"
               value={profile.age}
               onChange={(e) => setProfile({ ...profile, age: parseInt(e.target.value) })}
-              className="w-full h-3 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+              className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
             />
-            <div className="flex justify-between mt-2 text-zinc-500 text-sm">
+            <div className="flex justify-between mt-4 text-zinc-600 text-xs font-bold uppercase tracking-widest">
               <span>13 лет</span>
               <span>100 лет</span>
             </div>
           </div>
         );
-      case 3:
+      case 4:
         return (
-          <div className="mt-8 text-center">
-            <div className="text-7xl font-bold text-blue-500 mb-8 font-display">{profile.height} <span className="text-2xl text-zinc-500">см</span></div>
+          <div className="mt-12 text-center">
+            <div className="text-8xl font-bold text-white mb-12 tracking-tighter">{profile.height} <span className="text-2xl text-zinc-600">см</span></div>
             <input
               type="range"
               min="120"
               max="220"
               value={profile.height}
               onChange={(e) => setProfile({ ...profile, height: parseInt(e.target.value) })}
-              className="w-full h-3 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+              className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
             />
-            <div className="flex justify-between mt-2 text-zinc-500 text-sm">
+            <div className="flex justify-between mt-4 text-zinc-600 text-xs font-bold uppercase tracking-widest">
               <span>120 см</span>
               <span>220 см</span>
             </div>
           </div>
         );
-      case 4:
+      case 5:
         return (
-          <div className="mt-8 text-center">
-            <div className="text-7xl font-bold text-blue-500 mb-8 font-display">{profile.weight} <span className="text-2xl text-zinc-500">кг</span></div>
+          <div className="mt-12 text-center">
+            <div className="text-8xl font-bold text-white mb-12 tracking-tighter">{profile.weight} <span className="text-2xl text-zinc-600">кг</span></div>
             <input
               type="range"
               min="30"
@@ -175,15 +183,15 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
               step="0.5"
               value={profile.weight}
               onChange={(e) => setProfile({ ...profile, weight: parseFloat(e.target.value) })}
-              className="w-full h-3 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+              className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
             />
-            <div className="flex justify-between mt-2 text-zinc-500 text-sm">
+            <div className="flex justify-between mt-4 text-zinc-600 text-xs font-bold uppercase tracking-widest">
               <span>30 кг</span>
               <span>200 кг</span>
             </div>
           </div>
         );
-      case 5:
+      case 6:
         return (
           <div className="flex flex-col gap-3 mt-8">
             {healthOptions.map((option) => {
@@ -194,80 +202,74 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 <button
                   key={option.id}
                   onClick={() => toggleHealthIssue(option.id)}
-                  className={`flex items-center gap-4 p-5 rounded-2xl border-2 transition-all text-left ${isActive ? 'border-blue-500 bg-blue-900/30' : 'border-zinc-800 bg-zinc-900'}`}
+                  className={`flex items-center gap-4 p-5 rounded-xl border transition-all text-left ${isActive ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-800 bg-zinc-900/50 hover:border-zinc-700'}`}
                 >
-                  <span className="text-2xl">{option.icon}</span>
-                  <span className="font-semibold">{option.label}</span>
-                  {isActive && <Check className="ml-auto text-blue-500" />}
+                  <span className="text-xl opacity-80">{option.icon}</span>
+                  <span className="font-medium text-zinc-200">{option.label}</span>
+                  {isActive && <Check className="ml-auto text-blue-500" size={20} />}
                 </button>
               );
             })}
           </div>
         );
-      case 6:
+      case 7:
         return (
           <div className="flex flex-col gap-4 mt-8">
             {[
-              { id: 'lose', label: 'Похудеть', icon: '🥗' },
-              { id: 'maintain', label: 'Поддерживать', icon: '⚖️' },
-              { id: 'gain', label: 'Набрать массу', icon: '💪' },
+              { id: 'lose', label: 'Снижение веса', icon: '🥗' },
+              { id: 'maintain', label: 'Поддержание формы', icon: '⚖️' },
+              { id: 'gain', label: 'Набор мышечной массы', icon: '💪' },
             ].map((goal) => (
               <button
                 key={goal.id}
                 onClick={() => { setProfile({ ...profile, goal: goal.id as any }); nextStep(); }}
-                className={`flex items-center gap-4 p-6 rounded-2xl border-2 transition-all text-left ${profile.goal === goal.id ? 'border-blue-500 bg-blue-900/30' : 'border-zinc-800 bg-zinc-900'}`}
+                className={`flex items-center gap-4 p-6 rounded-xl border transition-all text-left ${profile.goal === goal.id ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-800 bg-zinc-900/50 hover:border-zinc-700'}`}
               >
-                <span className="text-3xl">{goal.icon}</span>
-                <span className="font-semibold text-lg">{goal.label}</span>
-                {profile.goal === goal.id && <Check className="ml-auto text-blue-500" />}
+                <span className="text-2xl opacity-80">{goal.icon}</span>
+                <span className="font-medium text-zinc-200">{goal.label}</span>
+                {profile.goal === goal.id && <Check className="ml-auto text-blue-500" size={20} />}
               </button>
             ))}
           </div>
         );
-      case 7:
+      case 8:
         return (
-          <div className="mt-8 text-center">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="mb-8"
-            >
-              <div className="text-zinc-500 uppercase tracking-widest text-sm font-bold mb-2">Твоя цель</div>
-              <div className="text-6xl font-bold text-white font-display">{targetMacros.calories} <span className="text-2xl text-zinc-400">Ккал</span></div>
-            </motion.div>
+          <div className="mt-8">
+            <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 mb-8 text-center">
+              <div className="text-zinc-500 uppercase tracking-widest text-xs font-bold mb-4">Рекомендуемая норма</div>
+              <div className="text-7xl font-bold text-white tracking-tighter mb-2">{targetMacros.calories}</div>
+              <div className="text-zinc-400 font-medium">килокалорий в день</div>
+            </div>
 
-            <div className="grid grid-cols-3 gap-4 mb-8">
+            <div className="grid grid-cols-3 gap-3 mb-8">
               {[
                 { label: 'Белки', value: targetMacros.protein, color: 'bg-blue-600' },
-                { label: 'Жиры', value: targetMacros.fat, color: 'bg-amber-500' },
+                { label: 'Жиры', value: targetMacros.fat, color: 'bg-amber-600' },
                 { label: 'Углеводы', value: targetMacros.carbs, color: 'bg-emerald-600' },
               ].map((m) => (
-                <div key={m.label} className="flex flex-col items-center">
-                  <div className={`w-16 h-16 rounded-full flex items-center justify-center text-white font-bold mb-2 ${m.color}`}>
-                    {m.value}г
-                  </div>
-                  <span className="text-xs font-semibold text-zinc-500">{m.label}</span>
+                <div key={m.label} className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 text-center">
+                  <div className="text-xl font-bold text-white mb-1">{m.value}г</div>
+                  <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">{m.label}</div>
                 </div>
               ))}
             </div>
 
-            <div className="bg-zinc-900 rounded-2xl p-4 mb-12 grid grid-cols-2 gap-4 border border-zinc-800">
-              <div className="text-left">
-                <div className="text-[10px] text-zinc-500 uppercase font-bold mb-1">Вода</div>
+            <div className="grid grid-cols-2 gap-3 mb-12">
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+                <div className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider mb-1">Вода</div>
                 <div className="text-lg font-bold text-blue-500">{targetMacros.water} мл</div>
               </div>
-              <div className="text-left">
-                <div className="text-[10px] text-zinc-500 uppercase font-bold mb-1">Шаги</div>
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
+                <div className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider mb-1">Шаги</div>
                 <div className="text-lg font-bold text-emerald-500">{targetMacros.steps}</div>
               </div>
             </div>
 
             <button
               onClick={() => onComplete(profile, targetMacros)}
-              className="w-full py-5 bg-blue-600 text-white rounded-2xl font-bold text-xl shadow-lg shadow-blue-900/50 hover:bg-blue-700 transition-colors"
+              className="w-full py-5 bg-blue-600 text-white rounded-xl font-bold text-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-900/20"
             >
-              Начать вести дневник
+              Начать работу
             </button>
           </div>
         );
@@ -277,60 +279,56 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex flex-col p-6 max-w-md mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        {step > 0 && step < 7 ? (
-          <button onClick={prevStep} className="p-2 -ml-2 text-zinc-500 hover:text-zinc-300">
-            <ChevronLeft size={24} />
+    <div className="min-h-screen bg-zinc-950 flex flex-col p-8 max-w-md mx-auto">
+      <div className="flex items-center justify-between mb-12">
+        {step > 0 && step < 8 ? (
+          <button onClick={prevStep} className="p-2 -ml-2 text-zinc-600 hover:text-zinc-400 transition-colors">
+            <ChevronLeft size={20} />
           </button>
-        ) : <div className="w-10 h-10" />}
+        ) : <div className="w-9 h-9" />}
         
-        <div className="flex gap-1">
+        <div className="flex gap-1.5">
           {steps.map((_, i) => (
             <div
               key={i}
-              className={`h-1.5 rounded-full transition-all ${i === step ? 'w-8 bg-blue-600' : 'w-2 bg-zinc-800'}`}
+              className={`h-1 rounded-full transition-all duration-500 ${i === step ? 'w-6 bg-blue-600' : 'w-1.5 bg-zinc-800'}`}
             />
           ))}
         </div>
         
-        <div className="w-10 h-10" />
+        <div className="w-9 h-9" />
       </div>
 
       <div className="flex-1">
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
-            initial={{ x: 20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -20, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
           >
-            <h1 className="text-3xl font-bold text-white mb-2 font-display">
-              {step === 7 ? `Привет, ${profile.name}!` : steps[step].title}
+            <h1 className="text-2xl font-bold text-white mb-1 tracking-tight">
+              {step === 8 ? `Добро пожаловать, ${profile.name}` : steps[step].title}
             </h1>
-            {step === 0 && <p className="text-zinc-500">Давай познакомимся поближе</p>}
+            {step === 0 && <p className="text-zinc-500 text-sm">Давайте создадим ваш профиль</p>}
             
             {renderStep()}
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {step > 0 && step < 6 && (
+      {(step === 0 || (step > 2 && step < 7)) && (
         <button
           onClick={nextStep}
-          className="mt-8 w-full py-4 bg-zinc-100 text-zinc-950 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-white transition-colors"
+          disabled={step === 0 && !profile.name.trim()}
+          className={`mt-12 w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all ${
+            (step === 0 && !profile.name.trim()) 
+              ? 'bg-zinc-900 text-zinc-700 cursor-not-allowed' 
+              : 'bg-white text-zinc-950 hover:bg-zinc-200'
+          }`}
         >
-          Далее <ChevronRight size={20} />
-        </button>
-      )}
-      {step === 0 && (
-        <button
-          onClick={nextStep}
-          disabled={!profile.name.trim()}
-          className={`mt-8 w-full py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-colors ${profile.name.trim() ? 'bg-zinc-100 text-zinc-950 hover:bg-white' : 'bg-zinc-900 text-zinc-700 cursor-not-allowed'}`}
-        >
-          Далее <ChevronRight size={20} />
+          Продолжить <ChevronRight size={18} />
         </button>
       )}
     </div>

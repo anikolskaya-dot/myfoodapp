@@ -143,41 +143,41 @@ export default function App() {
   const renderDiary = () => (
     <div className="pb-24">
       {/* Date Header */}
-      <div className="bg-zinc-950 px-6 pt-6 flex items-center justify-between">
-        <button onClick={() => changeDate(-1)} className="p-2 text-zinc-500 hover:text-zinc-300">
+      <div className="bg-zinc-950 px-6 pt-8 flex items-center justify-between">
+        <button onClick={() => changeDate(-1)} className="p-2 text-zinc-600 hover:text-zinc-300 transition-colors">
           <ChevronLeft size={20} />
         </button>
-        <div className="flex items-center gap-2 font-bold text-white">
-          <Calendar size={18} className="text-blue-500" />
+        <div className="flex items-center gap-2 font-bold text-white tracking-tight">
+          <Calendar size={18} className="text-blue-500 opacity-80" />
           {selectedDate === getTodayDate() ? 'Сегодня' : new Date(selectedDate).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })}
         </div>
-        <button onClick={() => changeDate(1)} className="p-2 text-zinc-500 hover:text-zinc-300">
+        <button onClick={() => changeDate(1)} className="p-2 text-zinc-600 hover:text-zinc-300 transition-colors">
           <ChevronRight size={20} />
         </button>
       </div>
 
-      <div className="bg-zinc-950 p-6 rounded-b-[40px] shadow-sm mb-6 flex flex-col items-center">
+      <div className="bg-zinc-950 p-6 rounded-b-3xl shadow-sm mb-6 flex flex-col items-center border-b border-zinc-900">
         <ProgressRing 
           remaining={Math.round(targetMacros.calories - totals.calories)} 
           total={targetMacros.calories} 
         />
         
-        <div className="w-full mt-8 space-y-4">
+        <div className="w-full mt-10 space-y-5">
           {[
             { label: 'Белки', current: totals.protein, target: targetMacros.protein, color: 'bg-blue-600', icon: '🟦' },
-            { label: 'Жиры', current: totals.fat, target: targetMacros.fat, color: 'bg-amber-500', icon: '🟨' },
+            { label: 'Жиры', current: totals.fat, target: targetMacros.fat, color: 'bg-amber-600', icon: '🟨' },
             { label: 'Углеводы', current: totals.carbs, target: targetMacros.carbs, color: 'bg-emerald-600', icon: '🟩' },
           ].map((m) => (
             <div key={m.label}>
-              <div className="flex justify-between text-xs font-bold uppercase tracking-wider mb-1.5">
-                <span className="text-zinc-500">{m.icon} {m.label}</span>
-                <span className="text-white">{Math.round(m.current)} / {m.target} г</span>
+              <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-2">
+                <span className="text-zinc-500">{m.label}</span>
+                <span className="text-zinc-300">{Math.round(m.current)} / {m.target} г</span>
               </div>
-              <div className="h-2 bg-zinc-900 rounded-full overflow-hidden">
+              <div className="h-1.5 bg-zinc-900 rounded-full overflow-hidden">
                 <motion.div 
                   initial={{ width: 0 }}
                   animate={{ width: `${Math.min(100, (m.current / m.target) * 100)}%` }}
-                  className={`h-full ${m.color}`}
+                  className={`h-full ${m.color} opacity-90`}
                 />
               </div>
             </div>
@@ -185,22 +185,22 @@ export default function App() {
         </div>
 
         {/* Recommendations */}
-        <div className="w-full mt-8 grid grid-cols-2 gap-4">
-          <div className="bg-blue-900/20 rounded-2xl p-4 flex items-center gap-3 border border-blue-900/30">
-            <div className="p-2 bg-blue-900/40 text-blue-400 rounded-xl">
-              <Droplets size={20} />
+        <div className="w-full mt-10 grid grid-cols-2 gap-3">
+          <div className="bg-zinc-900/50 rounded-xl p-4 flex items-center gap-3 border border-zinc-800">
+            <div className="p-2 bg-blue-900/20 text-blue-500 rounded-lg">
+              <Droplets size={18} />
             </div>
             <div>
-              <div className="text-[10px] text-zinc-500 uppercase font-bold">Вода</div>
+              <div className="text-[9px] text-zinc-500 uppercase font-bold tracking-wider">Вода</div>
               <div className="text-sm font-bold text-white">{targetMacros.water} мл</div>
             </div>
           </div>
-          <div className="bg-emerald-900/20 rounded-2xl p-4 flex items-center gap-3 border border-emerald-900/30">
-            <div className="p-2 bg-emerald-900/40 text-emerald-400 rounded-xl">
-              <Footprints size={20} />
+          <div className="bg-zinc-900/50 rounded-xl p-4 flex items-center gap-3 border border-zinc-800">
+            <div className="p-2 bg-emerald-900/20 text-emerald-500 rounded-lg">
+              <Footprints size={18} />
             </div>
             <div>
-              <div className="text-[10px] text-zinc-500 uppercase font-bold">Шаги</div>
+              <div className="text-[9px] text-zinc-500 uppercase font-bold tracking-wider">Шаги</div>
               <div className="text-sm font-bold text-white">{targetMacros.steps}</div>
             </div>
           </div>
@@ -209,38 +209,38 @@ export default function App() {
 
       <div className="px-6 space-y-4">
         {(Object.keys(MEAL_LABELS) as MealType[]).map((mealType) => (
-          <div key={mealType} className="bg-zinc-900 rounded-3xl p-5 shadow-sm border border-zinc-800">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold text-white font-display">{MEAL_LABELS[mealType]}</h3>
+          <div key={mealType} className="bg-zinc-900/30 rounded-2xl p-5 border border-zinc-900">
+            <div className="flex justify-between items-center mb-5">
+              <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-widest">{MEAL_LABELS[mealType]}</h3>
               <button 
                 onClick={() => setIsSearching({ meal: mealType })}
-                className="flex items-center gap-1 text-blue-400 font-bold text-sm bg-blue-900/30 px-3 py-1.5 rounded-full"
+                className="flex items-center gap-1.5 text-blue-500 font-bold text-xs hover:text-blue-400 transition-colors"
               >
-                <Plus size={16} /> Добавить
+                <Plus size={14} /> Добавить
               </button>
             </div>
             
-            <div className="space-y-3">
+            <div className="space-y-4">
               {currentLog.meals[mealType].length > 0 ? (
                 currentLog.meals[mealType].map((food) => (
                   <div key={food.logId} className="flex items-center gap-3 group">
-                    <div className="w-10 h-10 bg-zinc-800 rounded-xl flex items-center justify-center text-lg">
-                      {food.image ? <img src={food.image} className="w-full h-full object-cover rounded-xl" referrerPolicy="no-referrer" /> : '🍎'}
+                    <div className="w-10 h-10 bg-zinc-900 rounded-lg flex items-center justify-center text-lg border border-zinc-800 overflow-hidden">
+                      {food.image ? <img src={food.image} className="w-full h-full object-cover opacity-80" referrerPolicy="no-referrer" /> : '🍎'}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-white truncate text-sm">{food.name}</div>
-                      <div className="text-xs text-zinc-500">{food.amount}г — {Math.round((food.caloriesPer100g * food.amount) / 100)} Ккал</div>
+                      <div className="font-medium text-zinc-200 truncate text-sm">{food.name}</div>
+                      <div className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">{food.amount}г • {Math.round((food.caloriesPer100g * food.amount) / 100)} Ккал</div>
                     </div>
                     <button 
                       onClick={() => removeFood(mealType, food.logId)}
-                      className="p-2 text-zinc-600 hover:text-red-500 transition-colors"
+                      className="p-2 text-zinc-700 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
                     >
-                      <Trash2 size={16} />
+                      <Trash2 size={14} />
                     </button>
                   </div>
                 ))
               ) : (
-                <p className="text-zinc-700 text-sm italic py-2">Список пуст</p>
+                <p className="text-zinc-800 text-xs font-medium italic">Нет записей</p>
               )}
             </div>
           </div>
@@ -266,26 +266,27 @@ export default function App() {
 
     return (
       <div className="p-6 pb-24">
-        <h1 className="text-3xl font-bold text-white mb-6 font-display">Статистика</h1>
+        <h1 className="text-2xl font-bold text-white mb-8 tracking-tight">Статистика</h1>
         
-        <div className="bg-zinc-900 p-6 rounded-3xl shadow-sm border border-zinc-800 mb-6">
-          <h3 className="text-zinc-500 font-bold uppercase text-xs tracking-widest mb-6">Калории за неделю</h3>
+        <div className="bg-zinc-900/50 p-6 rounded-2xl border border-zinc-800 mb-8">
+          <h3 className="text-zinc-500 font-bold uppercase text-[10px] tracking-widest mb-8">Активность за неделю</h3>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={last7Days}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#27272a" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#71717a', fontSize: 12 }} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#18181b" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#3f3f46', fontSize: 10, fontWeight: 700 }} />
                 <YAxis hide />
                 <Tooltip 
-                  cursor={{ fill: '#18181b' }}
-                  contentStyle={{ backgroundColor: '#18181b', borderRadius: '16px', border: '1px solid #27272a', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.5)' }}
-                  itemStyle={{ color: '#fff' }}
+                  cursor={{ fill: '#18181b', opacity: 0.4 }}
+                  contentStyle={{ backgroundColor: '#09090b', borderRadius: '12px', border: '1px solid #27272a', boxShadow: 'none' }}
+                  itemStyle={{ color: '#fff', fontSize: '12px', fontWeight: 'bold' }}
                 />
-                <Bar dataKey="calories" radius={[6, 6, 0, 0]}>
+                <Bar dataKey="calories" radius={[4, 4, 0, 0]}>
                   {last7Days.map((entry, index) => (
                     <Cell 
                       key={`cell-${index}`} 
                       fill={entry.calories > entry.target ? '#ef4444' : '#3b82f6'} 
+                      fillOpacity={0.8}
                       onClick={() => { setSelectedDate(entry.date); setActiveTab('diary'); }}
                       className="cursor-pointer"
                     />
@@ -296,8 +297,8 @@ export default function App() {
           </div>
         </div>
 
-        <h3 className="text-zinc-500 font-bold uppercase text-xs tracking-widest mb-4 px-2">История записей</h3>
-        <div className="space-y-3">
+        <h3 className="text-zinc-500 font-bold uppercase text-[10px] tracking-widest mb-4 px-2">История</h3>
+        <div className="space-y-2">
           {Object.keys(logs).sort((a, b) => b.localeCompare(a)).slice(0, 10).map(date => {
             const log = logs[date];
             const totalCals = (Object.values(log.meals).flat() as LoggedFood[]).reduce((sum: number, f: LoggedFood) => sum + (f.caloriesPer100g * f.amount) / 100, 0);
@@ -305,15 +306,14 @@ export default function App() {
               <button 
                 key={date}
                 onClick={() => { setSelectedDate(date); setActiveTab('diary'); }}
-                className="w-full flex items-center justify-between p-4 bg-zinc-900 rounded-2xl shadow-sm border border-zinc-800 hover:border-blue-900/50 transition-colors"
+                className="w-full flex items-center justify-between p-4 bg-zinc-900/30 rounded-xl border border-zinc-900 hover:border-zinc-700 transition-colors"
               >
                 <div className="text-left">
-                  <div className="font-bold text-white">{new Date(date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })}</div>
-                  <div className="text-xs text-zinc-500">{date === getTodayDate() ? 'Сегодня' : ''}</div>
+                  <div className="font-bold text-zinc-200 text-sm">{new Date(date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })}</div>
+                  <div className="text-[10px] text-zinc-600 font-bold uppercase tracking-wider">{date === getTodayDate() ? 'Сегодня' : ''}</div>
                 </div>
                 <div className="text-right">
-                  <div className={`font-bold ${totalCals > targetMacros.calories ? 'text-red-500' : 'text-blue-500'}`}>{Math.round(totalCals)} Ккал</div>
-                  <div className="text-[10px] text-zinc-500 uppercase font-bold">Итого</div>
+                  <div className={`font-bold text-sm ${totalCals > targetMacros.calories ? 'text-red-500' : 'text-blue-500'}`}>{Math.round(totalCals)} Ккал</div>
                 </div>
               </button>
             );
@@ -325,22 +325,22 @@ export default function App() {
 
   const renderProfile = () => (
     <div className="p-6 pb-24">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-white font-display">Профиль</h1>
-        <button onClick={() => setIsEditingProfile(!isEditingProfile)} className={`p-2 rounded-full transition-colors ${isEditingProfile ? 'bg-blue-600 text-white' : 'bg-zinc-800 text-zinc-400'}`}>
-          <Settings size={20} />
+      <div className="flex justify-between items-center mb-10">
+        <h1 className="text-2xl font-bold text-white tracking-tight">Профиль</h1>
+        <button onClick={() => setIsEditingProfile(!isEditingProfile)} className={`p-2 rounded-lg transition-colors ${isEditingProfile ? 'bg-blue-600 text-white' : 'bg-zinc-900 text-zinc-500 hover:text-zinc-300'}`}>
+          <Settings size={18} />
         </button>
       </div>
 
-      <div className="bg-zinc-900 p-8 rounded-[40px] shadow-sm border border-zinc-800 flex flex-col items-center mb-8">
-        <div className="relative group">
-          <div className="w-24 h-24 bg-zinc-800 rounded-full flex items-center justify-center text-4xl mb-4 border border-zinc-700">
+      <div className="bg-zinc-900/50 p-8 rounded-3xl border border-zinc-800 flex flex-col items-center mb-8">
+        <div className="relative group mb-6">
+          <div className="w-20 h-20 bg-zinc-900 rounded-full flex items-center justify-center text-3xl border border-zinc-800 shadow-inner">
             {profile?.emoji}
           </div>
           {isEditingProfile && (
-            <div className="absolute inset-0 flex flex-wrap gap-1 bg-zinc-900/95 backdrop-blur rounded-full p-2 overflow-y-auto no-scrollbar border border-zinc-700">
+            <div className="absolute inset-0 flex flex-wrap gap-1 bg-zinc-950/95 backdrop-blur rounded-full p-2 overflow-y-auto no-scrollbar border border-zinc-800 z-10">
               {['👤', '🦁', '🦊', '🐼', '🐨', '🐯', '🐸', '🦄', '🥑', '🍎', '💪', '🏃', '🧘'].map(e => (
-                <button key={e} onClick={() => updateProfile({ emoji: e })} className="text-xl hover:scale-125 transition-transform">{e}</button>
+                <button key={e} onClick={() => updateProfile({ emoji: e })} className="text-lg hover:scale-125 transition-transform">{e}</button>
               ))}
             </div>
           )}
@@ -351,47 +351,47 @@ export default function App() {
             type="text" 
             value={profile?.name} 
             onChange={(e) => updateProfile({ name: e.target.value })}
-            className="text-xl font-bold text-white mb-1 text-center bg-zinc-800 rounded-lg px-2 py-1 border-2 border-blue-900/50 focus:outline-none focus:border-blue-500"
+            className="text-lg font-bold text-white mb-2 text-center bg-zinc-950 rounded-lg px-3 py-1.5 border border-zinc-800 focus:outline-none focus:border-blue-500 w-full max-w-[200px]"
           />
         ) : (
-          <h2 className="text-xl font-bold text-white mb-1">{profile?.name}</h2>
+          <h2 className="text-xl font-bold text-white mb-1 tracking-tight">{profile?.name}</h2>
         )}
         
-        <p className="text-zinc-500 text-sm mb-6">{profile?.age} лет • {profile?.height} см • {profile?.weight} кг</p>
+        <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest mb-8">{profile?.age} лет • {profile?.height} см • {profile?.weight} кг</p>
         
-        <div className="w-full grid grid-cols-2 gap-4">
-          <div className="flex flex-col items-center p-4 bg-zinc-800/50 rounded-2xl border border-zinc-800">
-            <div className="text-blue-500 font-bold text-lg">{targetMacros?.calories}</div>
-            <div className="text-[10px] text-zinc-500 uppercase font-bold">Цель Ккал</div>
+        <div className="w-full grid grid-cols-2 gap-3">
+          <div className="flex flex-col items-center p-4 bg-zinc-950/50 rounded-xl border border-zinc-900">
+            <div className="text-blue-500 font-bold text-lg tracking-tight">{targetMacros?.calories}</div>
+            <div className="text-[9px] text-zinc-600 uppercase font-bold tracking-widest">Цель Ккал</div>
           </div>
-          <div className="flex flex-col items-center p-4 bg-zinc-800/50 rounded-2xl border border-zinc-800">
-            <div className="text-emerald-500 font-bold text-lg">
-              {profile?.goal === 'lose' ? 'Похудение' : profile?.goal === 'gain' ? 'Набор' : 'Поддержание'}
+          <div className="flex flex-col items-center p-4 bg-zinc-950/50 rounded-xl border border-zinc-900">
+            <div className="text-emerald-500 font-bold text-sm tracking-tight text-center">
+              {profile?.goal === 'lose' ? 'Снижение' : profile?.goal === 'gain' ? 'Набор' : 'Поддержание'}
             </div>
-            <div className="text-[10px] text-zinc-500 uppercase font-bold">Текущая цель</div>
+            <div className="text-[9px] text-zinc-600 uppercase font-bold tracking-widest">Стратегия</div>
           </div>
         </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         <button 
           onClick={() => setProfile(null)}
-          className="w-full flex items-center justify-between p-5 bg-zinc-900 rounded-2xl shadow-sm border border-zinc-800"
+          className="w-full flex items-center justify-between p-5 bg-zinc-900/30 rounded-xl border border-zinc-900 hover:border-zinc-700 transition-colors"
         >
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-900/30 text-blue-400 rounded-lg"><Edit2 size={20} /></div>
-            <span className="font-semibold text-zinc-300">Пересчитать норму</span>
+            <div className="p-2 bg-zinc-950 text-zinc-400 rounded-lg"><Edit2 size={18} /></div>
+            <span className="text-sm font-bold text-zinc-300 uppercase tracking-wider">Пересчитать параметры</span>
           </div>
-          <ChevronRight size={20} className="text-zinc-700" />
+          <ChevronRight size={18} className="text-zinc-700" />
         </button>
         
         <button 
           onClick={() => setShowResetConfirm(true)}
-          className="w-full flex items-center justify-between p-5 bg-zinc-900 rounded-2xl shadow-sm border border-zinc-800 text-red-500"
+          className="w-full flex items-center justify-between p-5 bg-zinc-900/30 rounded-xl border border-zinc-900 hover:border-red-900/30 transition-colors text-red-500/80"
         >
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-red-900/30 text-red-500 rounded-lg"><LogOut size={20} /></div>
-            <span className="font-semibold">Сбросить все данные</span>
+            <div className="p-2 bg-zinc-950 text-red-500/50 rounded-lg"><LogOut size={18} /></div>
+            <span className="text-sm font-bold uppercase tracking-wider">Сбросить данные</span>
           </div>
         </button>
       </div>
@@ -399,13 +399,13 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen bg-zinc-950 max-w-md mx-auto relative font-sans">
+    <div className="min-h-screen bg-zinc-950 max-w-md mx-auto relative font-sans selection:bg-blue-500/30">
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
         >
           {activeTab === 'diary' && renderDiary()}
@@ -415,7 +415,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-zinc-950/80 backdrop-blur-xl border-t border-zinc-900 px-8 py-4 flex justify-between items-center z-40 max-w-md mx-auto">
+      <div className="fixed bottom-0 left-0 right-0 bg-zinc-950/90 backdrop-blur-md border-t border-zinc-900 px-10 py-5 flex justify-between items-center z-40 max-w-md mx-auto">
         {[
           { id: 'diary', icon: Home, label: 'Дневник' },
           { id: 'stats', icon: BarChart2, label: 'Статистика' },
@@ -424,10 +424,10 @@ export default function App() {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
-            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === tab.id ? 'text-blue-500' : 'text-zinc-500'}`}
+            className={`flex flex-col items-center gap-1.5 transition-all ${activeTab === tab.id ? 'text-blue-500' : 'text-zinc-600 hover:text-zinc-400'}`}
           >
-            <tab.icon size={24} strokeWidth={activeTab === tab.id ? 2.5 : 2} />
-            <span className="text-[10px] font-bold uppercase tracking-wider">{tab.label}</span>
+            <tab.icon size={20} strokeWidth={activeTab === tab.id ? 2.5 : 2} />
+            <span className="text-[8px] font-black uppercase tracking-[0.2em]">{tab.label}</span>
           </button>
         ))}
       </div>

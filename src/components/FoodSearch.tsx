@@ -95,71 +95,71 @@ export default function FoodSearch({ onClose, onSelect }: FoodSearchProps) {
 
   return (
     <div className="fixed inset-0 bg-zinc-950 z-50 flex flex-col">
-      <div className="p-4 border-b border-zinc-900 flex items-center gap-4">
-        <button onClick={onClose} className="p-2 -ml-2 text-zinc-500 hover:text-zinc-300">
+      <div className="p-6 border-b border-zinc-900 flex items-center gap-4">
+        <button onClick={onClose} className="p-2 -ml-2 text-zinc-600 hover:text-zinc-300 transition-colors">
           <ChevronLeft size={24} />
         </button>
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={20} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600" size={18} />
           <input
             autoFocus
             type="text"
             placeholder="Поиск продуктов..."
-            className="w-full bg-zinc-900 text-white rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-800"
+            className="w-full bg-zinc-900 text-white rounded-lg py-3 pl-10 pr-4 focus:outline-none focus:ring-1 focus:ring-zinc-700 border border-zinc-800 text-sm font-medium"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
           {query && (
             <button 
               onClick={() => setQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-zinc-400"
             >
-              <X size={18} />
+              <X size={16} />
             </button>
           )}
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 no-scrollbar">
+      <div className="flex-1 overflow-y-auto p-6 no-scrollbar">
         {loading ? (
-          <div className="flex flex-col items-center justify-center h-64 text-zinc-500">
-            <Loader2 className="animate-spin mb-4" size={32} />
-            <p>Ищем в базе Open Food Facts...</p>
+          <div className="flex flex-col items-center justify-center h-64 text-zinc-700">
+            <Loader2 className="animate-spin mb-4 opacity-50" size={24} />
+            <p className="text-xs font-bold uppercase tracking-widest">Поиск в базе данных...</p>
           </div>
         ) : results.length > 0 ? (
-          <div className="space-y-2">
+          <div className="space-y-1">
             {results.map((food) => (
               <button
                 key={food.id}
                 onClick={() => onSelect(food)}
-                className="w-full flex items-center gap-4 p-3 rounded-xl hover:bg-zinc-900 transition-colors text-left border border-transparent hover:border-zinc-800"
+                className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-zinc-900 transition-colors text-left border border-transparent hover:border-zinc-800 group"
               >
-                <div className="w-12 h-12 bg-zinc-800 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center border border-zinc-700">
+                <div className="w-10 h-10 bg-zinc-900 rounded flex items-center justify-center border border-zinc-800 overflow-hidden">
                   {food.image ? (
-                    <img src={food.image} alt={food.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    <img src={food.image} alt={food.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" referrerPolicy="no-referrer" />
                   ) : (
-                    <span className="text-xl">🍎</span>
+                    <span className="text-lg">🍎</span>
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-white truncate">{food.name}</h3>
-                  <p className="text-xs text-zinc-500 truncate">{food.brand || 'Общий продукт'}</p>
+                  <h3 className="font-bold text-zinc-200 text-sm truncate">{food.name}</h3>
+                  <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-wider truncate">{food.brand || 'Общий продукт'}</p>
                 </div>
                 <div className="text-right">
-                  <div className="font-bold text-white">{food.caloriesPer100g}</div>
-                  <div className="text-[10px] text-zinc-500 uppercase font-bold">Ккал/100г</div>
+                  <div className="font-bold text-zinc-200 text-sm">{food.caloriesPer100g}</div>
+                  <div className="text-[9px] text-zinc-600 uppercase font-bold tracking-widest">Ккал/100г</div>
                 </div>
               </button>
             ))}
           </div>
         ) : query.length > 2 ? (
-          <div className="text-center py-20 text-zinc-500">
-            <p>Ничего не найдено</p>
+          <div className="text-center py-20 text-zinc-700">
+            <p className="text-xs font-bold uppercase tracking-widest">Ничего не найдено</p>
           </div>
         ) : (
-          <div className="text-center py-20 text-zinc-500">
-            <p className="text-lg font-medium mb-2 text-zinc-300">Начни вводить название</p>
-            <p className="text-sm">Например: Яблоко, Творог, Big Mac</p>
+          <div className="text-center py-20">
+            <p className="text-sm font-bold text-zinc-400 mb-2 uppercase tracking-widest">Введите название</p>
+            <p className="text-xs text-zinc-600 font-medium">Поиск по базе Open Food Facts</p>
           </div>
         )}
       </div>
