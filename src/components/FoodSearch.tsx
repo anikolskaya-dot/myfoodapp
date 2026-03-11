@@ -94,25 +94,25 @@ export default function FoodSearch({ onClose, onSelect }: FoodSearchProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-white z-50 flex flex-col">
-      <div className="p-4 border-b flex items-center gap-4">
-        <button onClick={onClose} className="p-2 -ml-2 text-slate-400">
+    <div className="fixed inset-0 bg-zinc-950 z-50 flex flex-col">
+      <div className="p-4 border-b border-zinc-900 flex items-center gap-4">
+        <button onClick={onClose} className="p-2 -ml-2 text-zinc-500 hover:text-zinc-300">
           <ChevronLeft size={24} />
         </button>
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={20} />
           <input
             autoFocus
             type="text"
             placeholder="Поиск продуктов..."
-            className="w-full bg-slate-100 rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-zinc-900 text-white rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-800"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
           {query && (
             <button 
               onClick={() => setQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500"
             >
               <X size={18} />
             </button>
@@ -122,7 +122,7 @@ export default function FoodSearch({ onClose, onSelect }: FoodSearchProps) {
 
       <div className="flex-1 overflow-y-auto p-4 no-scrollbar">
         {loading ? (
-          <div className="flex flex-col items-center justify-center h-64 text-slate-400">
+          <div className="flex flex-col items-center justify-center h-64 text-zinc-500">
             <Loader2 className="animate-spin mb-4" size={32} />
             <p>Ищем в базе Open Food Facts...</p>
           </div>
@@ -132,9 +132,9 @@ export default function FoodSearch({ onClose, onSelect }: FoodSearchProps) {
               <button
                 key={food.id}
                 onClick={() => onSelect(food)}
-                className="w-full flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors text-left border border-transparent hover:border-slate-100"
+                className="w-full flex items-center gap-4 p-3 rounded-xl hover:bg-zinc-900 transition-colors text-left border border-transparent hover:border-zinc-800"
               >
-                <div className="w-12 h-12 bg-slate-100 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center">
+                <div className="w-12 h-12 bg-zinc-800 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center border border-zinc-700">
                   {food.image ? (
                     <img src={food.image} alt={food.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   ) : (
@@ -142,23 +142,23 @@ export default function FoodSearch({ onClose, onSelect }: FoodSearchProps) {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-slate-900 truncate">{food.name}</h3>
-                  <p className="text-xs text-slate-500 truncate">{food.brand || 'Общий продукт'}</p>
+                  <h3 className="font-semibold text-white truncate">{food.name}</h3>
+                  <p className="text-xs text-zinc-500 truncate">{food.brand || 'Общий продукт'}</p>
                 </div>
                 <div className="text-right">
-                  <div className="font-bold text-slate-900">{food.caloriesPer100g}</div>
-                  <div className="text-[10px] text-slate-400 uppercase font-bold">Ккал/100г</div>
+                  <div className="font-bold text-white">{food.caloriesPer100g}</div>
+                  <div className="text-[10px] text-zinc-500 uppercase font-bold">Ккал/100г</div>
                 </div>
               </button>
             ))}
           </div>
         ) : query.length > 2 ? (
-          <div className="text-center py-20 text-slate-400">
+          <div className="text-center py-20 text-zinc-500">
             <p>Ничего не найдено</p>
           </div>
         ) : (
-          <div className="text-center py-20 text-slate-400">
-            <p className="text-lg font-medium mb-2">Начни вводить название</p>
+          <div className="text-center py-20 text-zinc-500">
+            <p className="text-lg font-medium mb-2 text-zinc-300">Начни вводить название</p>
             <p className="text-sm">Например: Яблоко, Творог, Big Mac</p>
           </div>
         )}

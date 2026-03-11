@@ -25,7 +25,7 @@ export default function ProgressRing({ remaining, total, size = 200, strokeWidth
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="#f1f5f9"
+          stroke="#18181b"
           strokeWidth={strokeWidth}
           fill="transparent"
         />
@@ -45,13 +45,13 @@ export default function ProgressRing({ remaining, total, size = 200, strokeWidth
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-        <span className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">
+        <span className="text-zinc-500 text-xs font-bold uppercase tracking-widest mb-1">
           {isOverLimit ? 'Перебор' : 'Осталось'}
         </span>
-        <span className={`text-4xl font-bold font-display ${isOverLimit ? 'text-red-500' : 'text-slate-900'}`}>
+        <span className={`text-4xl font-bold font-display ${isOverLimit ? 'text-red-500' : 'text-white'}`}>
           {Math.abs(remaining)}
         </span>
-        <span className="text-slate-400 text-sm font-medium mt-1">Ккал</span>
+        <span className="text-zinc-500 text-sm font-medium mt-1">Ккал</span>
       </div>
     </div>
   );

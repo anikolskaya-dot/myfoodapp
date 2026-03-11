@@ -12,6 +12,7 @@ export interface UserProfile {
   weight: number;
   goal: 'lose' | 'maintain' | 'gain';
   activityLevel: number; // 1.2 to 1.9
+  healthIssues: string[];
 }
 
 export interface Macros {

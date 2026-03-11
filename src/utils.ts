@@ -11,7 +11,21 @@ export function calculateMacros(profile: UserProfile): Macros {
 
   const tdee = bmr * profile.activityLevel;
   
-  const targetCalories = tdee + (profile.goal === 'lose' ? -500 : profile.goal === 'gain' ? 500 : 0);
+  let targetCalories = tdee + (profile.goal === 'lose' ? -500 : profile.goal === 'gain' ? 500 : 0);
+
+  // Health adjustments
+  if (profile.healthIssues.includes('diabetes')) {
+    // Slightly lower calories or stricter macro control (here just a small calorie tweak for demo)
+    targetCalories *= 0.95;
+  }
+  if (profile.healthIssues.includes('heart')) {
+    // Heart issues might require lower sodium/fat, but here we tweak calories slightly
+    targetCalories *= 0.98;
+  }
+  if (profile.healthIssues.includes('thyroid')) {
+    // Thyroid issues often slow metabolism
+    targetCalories *= 0.9;
+  }
 
   // Simple macro split: 30% protein, 30% fat, 40% carbs
   const protein = (targetCalories * 0.3) / 4;
